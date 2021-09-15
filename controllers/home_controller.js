@@ -1,5 +1,9 @@
 module.exports.home = function(req,res){
-    return res.end("<h1>Hey Controller is displayed</h1>");
+    // console.log(req.cookies);
+    return res.render('home',{
+        title:"ejs",
+        started:"go on good work"
+    })
 
 }
 

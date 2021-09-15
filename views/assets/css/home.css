@@ -1,0 +1,29 @@
+body{
+    /* text-align: center; */
+}
+.container{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border: 5px solid #FFFF00;
+    padding: 30px;
+    padding-top: 5px;
+    /* width: 300px; */
+    text-align: center;
+    
+}
+.container input{
+    display: inline-block;
+    margin-bottom: 10px;
+    /* text-align: center; */
+    width:40%;
+}
+.container p{
+    display: inline-block;
+    width :50%;
+}
+.container button{
+    
+    margin-left: 50%-45px;
+}

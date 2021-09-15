@@ -5,11 +5,17 @@ const router=express.Router();
 
 console.log("router enabled");
 
+
 router.get('/', homeController.home )
 router.get('/play', homeController.play );
 router.get('/anime', homeController.anime );
 
 
-router.use('/users' , require('./users.js'))
+
+router.use('/users' , require('./users'))
+
+
+
+
 
 module.exports=router;
