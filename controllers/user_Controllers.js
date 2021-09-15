@@ -1,10 +1,10 @@
 const User = require('../models/user');
 
 module.exports.profile = function(req,res){
-    
-     return res.render('users_profile',{
-          title:"user Profile"
-     })
+    return res.render('users_profile',{
+        title:"user Profile"
+        
+    })
 }
 
 module.exports.score = function(req,res){
@@ -29,5 +29,7 @@ module.exports.signIn=function(req,res){
         started:"SignIn page"
     })
 }
+
+// get the sign up data
 
 
