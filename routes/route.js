@@ -13,7 +13,7 @@ router.get('/anime', homeController.anime );
 
 
 router.use('/users' , require('./users'))
-
+router.use('/posts',require('./posts'));
 
 
 

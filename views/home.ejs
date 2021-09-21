@@ -13,16 +13,54 @@
 </head>
 <body>
 
+<div class="header">
+    <h4>Connecti</h4>
+    <% if(locals.user){%>
+        <a href="users/profile">Profile</a>
+        <a href="users/sign-out">Sign Out</a>
+        <% } %>
 
+        <% if(!locals.user){%>
+            <a href="users/sign-in"><button>Sign In</button></a>
+            <a href="users/sign-up"><button>Sign Up</button></a>
+            <% } %>
+</div>
     <h1>HomePage</h1>
-    <!-- <div class="container">
-        <h1><%= started%></h1>
-        <form action="/create-user"method="POST">
-            <p>Username: </p><input type="textarea" placeholder="Enter username" required>
-            <p>Password: </p><input type="password" placeholder="Enter password"required>
-            <button type="submit">Add user</button>
+    
+
+
+
+    <% if(locals.user){%>
+        <h2>Posts</h2>
+        <form action="/posts/create-post" id="postForm" method="POST">
+            <textarea name="content" cols="30" rows="4" placeholder="Type here...."></textarea>
+            <button>Post it</button>
         </form>
-    </div>       -->
-    <script src="/js/home.js"></script>
+        
+        
+        
+        <% } %>
+            <!-- add post -->
+            
+
+
+            <% for(var i = 0; i < posts.length; i++){ %>
+               <p>
+                <h3>
+                    <%= posts[i].content %>
+            </h3>                        
+                <small>
+                    <%= posts[i].user.name %>
+                </small>
+
+
+
+               </p>
+                
+                        
+                
+                <%} %>
+            
+        <script src="/js/home.js"></script>
 </body>
 </html>
