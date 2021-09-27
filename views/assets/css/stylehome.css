@@ -12,14 +12,14 @@
     flex-direction: column;
     background-color: cornsilk;
     position: sticky;
-    top: 40px; }
+    top: 4rem; }
     #all-three-sections #friends-right h2 {
       color: tomato;
       margin-left: auto;
       margin-right: auto;
       background-color: whitesmoke;
-      padding-left: 50px;
-      padding-right: 50px; }
+      padding-left: 20%;
+      padding-right: 20%; }
     #all-three-sections #friends-right a {
       margin-left: 20px; }
 

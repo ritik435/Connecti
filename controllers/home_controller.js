@@ -3,8 +3,8 @@ const Post=require('../models/post');
 const User=require('../models/user');
 
 
-
-module.exports.home = function(req, res){
+//asynchronous function
+module.exports.home = async function(req, res){
     // console.log(req.cookies);
     // res.cookie('user_id', 25);
 
@@ -16,25 +16,29 @@ module.exports.home = function(req, res){
     // });
 
     // populate the user of each post
-    Post.find({}).populate('user')
+    try{
+        //await = wait till it is processed
+        let posts=await Post.find({}).populate('user')
     .populate({
         path : 'comments',
         populate : {
             path:'user'
         }
-    })
-    .exec(function(err, post){
-        User.find({},function(err,users){
-            return res.render('home', {
+    });
+    //wait till posts is processed
+    let users= await User.find({});
+
+        return res.render('home', {
                 title: "Connecti | HomePage",
-                posts:  post,
+                posts:  posts,
                 all_users :users
             });
-
-
-        })
-        
-    })
+    }
+    catch(err){
+        console.log("Error",err);
+        return;
+    }
+    
 
 }
 
