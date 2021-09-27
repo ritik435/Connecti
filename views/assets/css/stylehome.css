@@ -1,0 +1,28 @@
+#all-three-sections {
+  display: flex;
+  flex-direction: row; }
+  #all-three-sections #main-section {
+    display: flex;
+    width: 70%;
+    flex-direction: column; }
+  #all-three-sections #friends-right {
+    display: flex;
+    width: 30%;
+    height: 95vh;
+    flex-direction: column;
+    background-color: cornsilk;
+    position: sticky;
+    top: 40px; }
+    #all-three-sections #friends-right h2 {
+      color: tomato;
+      margin-left: auto;
+      margin-right: auto;
+      background-color: whitesmoke;
+      padding-left: 50px;
+      padding-right: 50px; }
+    #all-three-sections #friends-right a {
+      margin-left: 20px; }
+
+.header {
+  position: sticky;
+  top: 0; }

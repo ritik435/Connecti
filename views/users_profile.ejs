@@ -14,8 +14,22 @@
     </h1>
     
     <a href="/users/sign-out"><button>Sign Out</button></a>
+    <a href="/"><button>HomePage</button></a>
 
-    <p><%= user.name %></p>
-    <p><%= user.email %></p>
+    <% if(user.id == user_profile.id){%>
+        <!-- render the form -->
+        <form action="/users/update/<%= user_profile.id%>" method="POST">
+            <input type="text" name="name" placeholder="Your name" value="<%= user_profile.name %>" required>
+            <input type="email" name="email" placeholder="Your email" value="<%= user_profile.email %>" required>
+            <input type="submit" name="Update">
+
+        </form>
+    
+    <%} else {%>
+        <!-- render only info -->
+        <p><%= user_profile.name %></p>
+        <p><%= user_profile.email %></p>
+
+    <% } %>
 </body>
 </html>

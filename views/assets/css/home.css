@@ -22,14 +22,6 @@ body {
   display: inline-block;
   width: 50%; }
 
-p {
-  background-color: aqua; }
-
-div {
-  background-color: rebeccapurple; }
-  div h1 {
-    background-color: yellowgreen; }
-
 #postForm {
   margin-top: 20px; }
 
@@ -46,3 +38,10 @@ div {
     color: darkred;
     margin-right: 10px;
     left: 70%; }
+
+.posts {
+  background-color: burlywood; }
+  .posts .post-user {
+    margin-left: 25px; }
+  .posts .comments {
+    background-color: yellowgreen; }

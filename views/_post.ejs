@@ -1,0 +1,37 @@
+<!-- add post -->
+<% for(post of posts){ %>
+    <div class="posts">
+    
+       
+        <h3>
+            <%= post.content %>
+    </h3>
+    <% if(locals.user && locals.user.id == post.user.id){%>
+        <small>
+        <a href="/posts/destroy-post/<%= post.id %>">Delete it</a>
+        </small>
+    <% } %>                        
+        <small class='post-user'>
+            <%= post.user.name %>
+        </small>
+
+        <% if(locals.user){%>
+        <div class="comments-form">
+            
+            <form action="/comments/create-comment" method="POST">
+                <textarea name="content" cols="20" rows="2" placeholder="Comment it" required></textarea>
+                <input type="hidden" name="post" value="<%= post.id%>">
+                <button>Add Comment</button>
+         </form> 
+        </div>
+        <%}%>
+            <%for (comment of post.comments){%>
+                
+                <%-include('_comment.ejs')-%>
+             <%}%>   
+        
+
+    
+    </div>    
+
+        <% } %>
