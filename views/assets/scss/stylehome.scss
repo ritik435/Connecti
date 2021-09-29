@@ -19,18 +19,23 @@
         background-color: cornsilk;
         position: sticky;
         top:4rem;
+
         h2{
             color: tomato;
             margin-left: auto;
             margin-right: auto;
             background-color: whitesmoke;
-            // width: 8em;
+            
             padding-left: 20%;
             padding-right: 20%;
             
         }
-        a{
-           margin-left: 20px;
+        div{
+            
+            margin: 15px;
+            a{
+                margin-left: 20px;
+            }
         }
     }
 

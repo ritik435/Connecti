@@ -1,6 +1,5 @@
 <!-- add post -->
-<% for(post of posts){ %>
-    <div class="posts">
+<div id="post-<%= post._id %>" class="posts">
     
        
         <h3>
@@ -8,7 +7,7 @@
     </h3>
     <% if(locals.user && locals.user.id == post.user.id){%>
         <small>
-        <a href="/posts/destroy-post/<%= post.id %>">Delete it</a>
+        <a class="delete-post-btn" href="/posts/destroy-post/<%= post._id %>">Delete it</a>
         </small>
     <% } %>                        
         <small class='post-user'>
@@ -27,11 +26,12 @@
         <%}%>
             <%for (comment of post.comments){%>
                 
-                <%-include('_comment.ejs')-%>
+                <div class="comments">
+                    <%-include('_comment.ejs')-%>
+                </div>
+                
              <%}%>   
         
 
     
     </div>    
-
-        <% } %>

@@ -20,8 +20,10 @@
       background-color: whitesmoke;
       padding-left: 20%;
       padding-right: 20%; }
-    #all-three-sections #friends-right a {
-      margin-left: 20px; }
+    #all-three-sections #friends-right div {
+      margin: 15px; }
+      #all-three-sections #friends-right div a {
+        margin-left: 20px; }
 
 .header {
   position: sticky;

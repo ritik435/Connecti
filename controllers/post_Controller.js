@@ -6,7 +6,16 @@ module.exports.createPost=async function(req,res){
         content:req.body.content,
         user:req.user._id
     });
-    return res.redirect('back');
+    if (req.xhr){
+            return res.status(200).json({
+                data: {
+                    post: post
+                },
+                message: "Post created!"
+            });
+        }
+    req.flash('success','Successfully created a Post');
+    // return res.redirect('back');
 }
 
 module.exports.destroyPost=async function(req,res){
@@ -14,7 +23,20 @@ module.exports.destroyPost=async function(req,res){
     if(post.user == req.user.id){
             post.remove();
             await Comment.deleteMany({post: req.params.id});
-            return res.redirect('back');
+
+
+            if (req.xhr){
+                return res.status(200).json({
+                    data: {
+                        post_id: req.params.id
+                    },
+                    message: "Post deleted"
+                });
+            }
+
+            
+            req.flash('success','Successfully removed the post');
+            // return res.redirect('back');
         }
         else{
             return res.redirect('back');

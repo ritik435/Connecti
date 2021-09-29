@@ -9,6 +9,9 @@
 
     </title>
     <link rel="stylesheet" type="text/css" href="/css/home.css">
+<!-- using noty js -->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"></script>
 
 </head>
 <body>
@@ -25,5 +28,27 @@
     </div>      
     <a href="/users/sign-up"><button>Sign Up</button></a>
     <script src="/js/home.js"></script>
+    <script>
+
+        <% if(flash.success && flash.success.length > 0) { %>
+            new Noty({
+                theme:'relax',
+                type: 'success',
+                layout: 'topRight',
+                text:'<%= flash.success%>',
+                timeout:2000
+            }).show();
+        <% } %>
+        <%if(flash.error && flash.error.length > 0) { %>
+        new Noty({
+            theme:'relax',
+            type: 'error',
+            layout: 'bottomleft',
+            text :'<%= flash.error %>' ,
+            timeout:2000
+            }).show();
+        <% } %>
+
+    </script>
 </body>
 </html>

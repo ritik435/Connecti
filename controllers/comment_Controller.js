@@ -13,19 +13,21 @@ module.exports.createComment = async function(req, res){
             });
             post.comments.push(comment);
                 post.save();
+                req.flash('success','You comment on a post');
                 res.redirect('/');
         }
 
     }catch(err){
-        console.log("error",err);
-        return;
+        req.flash('error',err);
+        res.redirect('/');
     }
     
 }
 
 
 module.exports.destroyComment=async function(req,res){
-    let comment=await Comment.findById(req.params.id);
+    try{
+        let comment=await Comment.findById(req.params.id);
     if(comment.user == req.user.id){
 
 
@@ -33,11 +35,17 @@ module.exports.destroyComment=async function(req,res){
             let postId=comment.post;
             comment.remove();
             let post=await Post.findByIdAndUpdate(postId,{ $pull: {comments : req.params.id}});
+            req.flash('success','You deleted a comment');
             return res.redirect('back');
             
         }else{
             return res.redirect('back');
         }
+    }catch(err){
+        console.log("error",err);
+        return;
+    }
+    
 }
 
 
