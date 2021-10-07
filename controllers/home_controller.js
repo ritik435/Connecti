@@ -18,7 +18,8 @@ module.exports.home = async function(req, res){
     // populate the user of each post
     try{
         //await = wait till it is processed
-        let posts=await Post.find({}).populate('user')
+        let posts=await Post.find({})
+        .populate('user')
         .sort('-createdAt')
         .populate('user')
     .populate({

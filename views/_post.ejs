@@ -7,7 +7,7 @@
     </h3>
     <% if(locals.user && locals.user.id == post.user.id){%>
         <small>
-        <a class="delete-post-btn" href="/posts/destroy-post/<%= post._id %>">Delete it</a>
+        <a class="delete-post-button" href="/posts/destroy-post/<%= post._id %>">Delete it</a>
         </small>
     <% } %>                        
         <small class='post-user'>
@@ -15,23 +15,26 @@
         </small>
 
         <% if(locals.user){%>
-        <div class="comments-form">
             
-            <form action="/comments/create-comment" method="POST">
-                <textarea name="content" cols="20" rows="2" placeholder="Comment it" required></textarea>
-                <input type="hidden" name="post" value="<%= post.id%>">
-                <button>Add Comment</button>
-         </form> 
-        </div>
-        <%}%>
-            <%for (comment of post.comments){%>
-                
-                <div class="comments">
-                    <%-include('_comment.ejs')-%>
-                </div>
-                
-             <%}%>   
-        
+            <div class="post-comments">
+                <form id="post-<%= post._id %>-comments-form" action="/comments/create-comment"  method="POST">
+                    <textarea name="content" cols="20" rows="2" placeholder="Comment it" required></textarea>
+                    <input type="hidden" name="post" value="<%= post.id%>">
+                    <button>Add Comment</button>
+             </form> 
+            
+            <%}%>
+            <div id="post-comments-list">
+                <div id="post-comments-<%= post._id %>">
+                    <%for (comment of post.comments){%>
+                            <%-include('_comment')-%>
+                    <%}%>   
+                 </div>
+            </div>
+
+
+            </div>
+            
 
     
-    </div>    
+</div>    

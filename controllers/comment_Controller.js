@@ -1,51 +1,82 @@
 const Comment=require('../models/comment');
 const Post=require('../models/post');
 
+
+
 module.exports.createComment = async function(req, res){
 
     try{
-        let post=await Post.findById(req.body.post);
-    if(post){
-            let comment=await Comment.create({
-                content:req.body.content,
-                user : req.user._id,
-                post : req.body.post
+        let post = await Post.findById(req.body.post);
+
+        if (post){
+            let comment = await Comment.create({
+                content: req.body.content,
+                post: req.body.post,
+                user: req.user._id
             });
+
             post.comments.push(comment);
-                post.save();
-                req.flash('success','You comment on a post');
-                res.redirect('/');
-        }
+            post.save();
 
-    }catch(err){
-        req.flash('error',err);
-        res.redirect('/');
-    }
+            if (req.xhr){
+                // Similar for comments to fetch the user's id!
     
-}
+                return res.status(200).json({
+                    data: {
+                        comment: comment
+                    },
+                    message: "Comment created!"
+                });
+            }
 
 
-module.exports.destroyComment=async function(req,res){
-    try{
-        let comment=await Comment.findById(req.params.id);
-    if(comment.user == req.user.id){
+            req.flash('success', 'Comment published!');
 
-
-            //remove comment from the post
-            let postId=comment.post;
-            comment.remove();
-            let post=await Post.findByIdAndUpdate(postId,{ $pull: {comments : req.params.id}});
-            req.flash('success','You deleted a comment');
-            return res.redirect('back');
-            
-        }else{
-            return res.redirect('back');
+            res.redirect('/');
         }
     }catch(err){
-        console.log("error",err);
+        req.flash('error', err);
         return;
     }
     
 }
 
+
+module.exports.destroyComment = async function(req, res){
+
+    try{
+        let comment = await Comment.findById(req.params.id);
+
+        if (comment.user == req.user.id){
+
+            let postId = comment.post;
+
+            comment.remove();
+
+            let post = Post.findByIdAndUpdate(postId, { $pull: {comments: req.params.id}});
+
+            // send the comment id which was deleted back to the views
+            if (req.xhr){
+                return res.status(200).json({
+                    data: {
+                        comment_id: req.params.id
+                    },
+                    message: "Comment deleted"
+                });
+            }
+
+
+            req.flash('success', 'Comment deleted!');
+
+            return res.redirect('back');
+        }else{
+            req.flash('error', 'Unauthorized');
+            return res.redirect('back');
+        }
+    }catch(err){
+        req.flash('error', err);
+        return;
+    }
+    
+}
 
