@@ -1,13 +1,16 @@
-const Post=require('../models/post');
-const Comment=require('../models/comment');
+const Post = require('../models/post');
+const Comment = require('../models/comment');
 
-module.exports.createPost=async function(req,res){
-    let post=await Post.create({
-        content:req.body.content,
-        user:req.user._id
-    });
-    if (req.xhr){
-        // post = await post.populate('user','name').execPopulate();
+module.exports.create = async function(req, res){
+    try{
+        let post = await Post.create({
+            content: req.body.content,
+            user: req.user._id
+        });
+        
+        if (req.xhr){
+            // if we want to populate just the name of the user (we'll not want to send the password in the API), this is how we do it!
+            post = await post.populate('user', 'name');
 
             return res.status(200).json({
                 data: {
@@ -16,11 +19,21 @@ module.exports.createPost=async function(req,res){
                 message: "Post created!"
             });
         }
-    req.flash('success','Successfully created a Post');
-    return res.redirect('back');
+
+        req.flash('success', 'Post published!');
+        return res.redirect('back');
+
+    }catch(err){
+        req.flash('error', err);
+        // added this to view the error on console as well
+        console.log(err);
+        return res.redirect('back');
+    }
+  
 }
 
-module.exports.destroyPost = async function(req, res){
+
+module.exports.destroy = async function(req, res){
 
     try{
         let post = await Post.findById(req.params.id);
@@ -32,7 +45,6 @@ module.exports.destroyPost = async function(req, res){
 
 
             if (req.xhr){
-                
                 return res.status(200).json({
                     data: {
                         post_id: req.params.id
@@ -55,5 +67,3 @@ module.exports.destroyPost = async function(req, res){
     }
     
 }
-
-

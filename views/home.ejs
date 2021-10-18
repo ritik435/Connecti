@@ -1,82 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <!-- <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
-    <title>
-        <%=title %>
+<link rel="stylesheet" href="/css/home.css">
 
-    </title>
-    
-
-    <link rel="stylesheet" type="text/css" href="/css/home.css">
-    <link rel="stylesheet" type="text/css" href="/css/stylehome.css">
-    <!-- using noty js -->
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"></script>
-    <!-- Using for ajax -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
-</head>
-<body>
-
-<div class="header">
-    <h4>Connecti</h4>
-    <% if(locals.user){%>
-        <a href="users/profile/<%= user.id%>">Profile</a>
-        <a href="users/sign-out">Sign Out</a>
-    <% } else{%>
-        <a href="users/sign-in"><button>Sign In</button></a>
-        <a href="users/sign-up"><button>Sign Up</button></a>
-    <% } %>
-</div>
-    
-    <section id="all-three-sections">
-        <section id="main-section">
-            <h1>HomePage</h1>
-            <% if(locals.user){%>
-                <h2>Posts</h2>
-                <form action="/posts/create-post" id="Post-Form" method="POST">
-                    <textarea name="content" cols="30" rows="4" placeholder="Type here...." required></textarea>
-                    <button>Post it</button>
-                </form>
+<div id="home-container">
+    <section id="feed-posts">
+            <h4>Posts</h4>
+            <% if(locals.user){ %>
+            <form action="/posts/create" id="new-post-form" method="POST">
+                <textarea name="content" cols="30" rows="3" placeholder="Type Here..." required></textarea>
+                <input type="submit" value="Post">
+            </form>
             <% } %>
-                <div id="posts-list-container">
-                    <div>
-                        <% for(post of posts){ %>
-                            <%-include('_post')-%>
-                        <% } %>
-
-                        </div>
-                    
-                </div>
+        
+            <div id="posts-list-container">
+                <ul>
+                    <% for(post of posts){ %>
+                        
+                    <%- include('_post') -%>
+                        
+                    <%} %>
+                </ul>
+            </div>
         </section>
         
-                    <% if(locals.user){%>
-                        <section id="friends-right">
-                            
-                                <h2>Friends</h2>
-                                <%for (u of all_users){%>
-                                <div>
-                                    <a href="/users/profile/<%= u.id%>"><%= u.name %></a>
-                                </div>
-                                
-                                       
-                            <% } %>
-                         </section>
-                    <% } %>  
-                    
-    </section>
+        
+        <section id="user-friends">
+            <h4>Friends</h4>
+            <% for(u of all_users){%>
+                <p>
+                    <a href="/users/profile/<%= u.id %>"><%= u.name %></a>
+                </p>
+            <% } %>
+        </section>
+</div>
 
+<!-- importing this script for creating the comments -->
+<script src="/js/home_post_comments.js" ></script>
+<script src="/js/home_posts.js"></script>
 
-
-    <!-- noty js  -->
-    
-    
-    
-    <script src="/js/home.js"></script>
-    <script src="js/home_comments.js"></script>
-    <script src="/js/home_posts.js"></script>
-</body>
-</html>

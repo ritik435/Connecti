@@ -1,57 +1,49 @@
-const express=require('express');
-const app=express();
-const cookieParser=require('cookie-parser');
+const express = require('express');
+const cookieParser = require('cookie-parser');
+const app = express();
 const hostname='127.0.0.1';
-const port = 200;
+const port = 400;
+const expressLayouts = require('express-ejs-layouts');
 const db = require('./config/mongoose');
-const session=require('express-session');
-const passport=require('passport');
-const passportLocal=require('./config/passport-local-strategy');
+// used for session cookie
+const session = require('express-session');
+const passport = require('passport');
+const passportLocal = require('./config/passport-local-strategy');
+const passportJWT=require('./config/passport-jwt-strategy');
 const MongoStore = require('connect-mongo');
 const sassMiddleware = require('node-sass-middleware');
-const flash=require('connect-flash');
-const flashMware=require('./config/flashMware');
+const flash = require('connect-flash');
+const customMware = require('./config/middleware');
+const googleStrategy=require('./config/passport-google-oauth2-strategy');
 
-//sass Middleware
 app.use(sassMiddleware({
-    src:'./views/assets/scss',
-    dest:'./views/assets/css',
+    src: './assets/scss',
+    dest: './assets/css',
     debug: true,
-    outputStyle:'extended',
-    prefix:'/css'
+    outputStyle: 'extended',
+    prefix: '/css'
 }));
-
-
-
-
-// app.use(expressLayouts);
-// // extract style and scripts from sub pages into the layout
-// app.set('layout extractStyles', true);
-// app.set('layout extractScripts', true);
-
-
-//sass middleware
-
-
-
-
-//our main middleware
 app.use(express.urlencoded());
 
-//cookie parser
 app.use(cookieParser());
 
+app.use(express.static('./assets'));
+// make the uploads path available to the browser
+app.use('/uploads', express.static(__dirname + '/uploads'));
+
+app.use(expressLayouts);
+// extract style and scripts from sub pages into the layout
+app.set('layout extractStyles', true);
+app.set('layout extractScripts', true);
 
 
-//static files added
-app.use(express.static('./views/assets'));
-
-//set up view engine
-app.set('view engine','ejs');
-app.set('views','./views');
 
 
-//mongoStore is used to store session cookies
+// set up the view engine
+app.set('view engine', 'ejs');
+app.set('views', './views');
+
+// mongo store is used to store the session cookie in the db
 app.use(session({
     name: 'Connecti',
     // TODO change the secret before deployment in production mode
@@ -63,7 +55,7 @@ app.use(session({
     },
     store: MongoStore.create(
         {
-            mongoUrl:'mongodb://localhost/user_db',
+            mongoUrl:'mongodb://localhost/Connect_i',
             autoRemove: 'disabled'
         
         },
@@ -77,20 +69,18 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(passport.setAuthenticatedUser);
-//flash-connect
+
 app.use(flash());
-app.use(flashMware.setFlash);
+app.use(customMware.setFlash);
+
+// use express router
+app.use('/', require('./routes'));
 
 
-
-//use express router
-app.use('/', require('./routes/route'));
-
-app.listen(port,hostname,function(err){
-    if(err){
-        console.log(`error while loading server${err}`);
-        return; 
+app.listen(port,hostname, function(err){
+    if (err){
+        console.log(`Error in running the server: ${err}`);
     }
-    console.log(`Server is running on : http://${hostname}:${port}`);
-    return;
-})
+
+    console.log(`Server is running on port: http://${hostname}:${port}`);
+});

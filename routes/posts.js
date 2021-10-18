@@ -1,11 +1,10 @@
-const express= require('express');
-const router=express.Router();
-const passport=require('../config/passport-local-strategy');
+const express = require('express');
+const router = express.Router();
+const passport = require('passport');
 
-const postController= require('../controllers/post_controller.js');
+const postsController = require('../controllers/posts_controller');
 
-router.post('/create-post',passport.checkAuthentication,postController.createPost);
+router.post('/create', passport.checkAuthentication, postsController.create);
+router.get('/destroy/:id', passport.checkAuthentication, postsController.destroy);
 
-router.get('/destroy-post/:id',passport.checkAuthentication,postController.destroyPost);
-
-module.exports=router;
+module.exports = router;
