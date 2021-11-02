@@ -35,7 +35,10 @@ class PostComments{
                     let newComment = pSelf.newCommentDom(data.data.comment);
                     $(`#post-comments-${postId}`).prepend(newComment);
                     pSelf.deleteComment($(' .delete-comment-button', newComment));
-
+                    
+                    //enable functionality of likes in comment
+                    new ToggleLike($(' .toggle-like-button', newComment));
+                    
                     new Noty({
                         theme: 'relax',
                         text: "Comment published!",
@@ -69,6 +72,14 @@ class PostComments{
                             <small>
                                 ${comment.user.name}
                             </small>
+                            <br>
+                            <small>
+                                
+                                    <a class="toggle-like-button" data-likes="${ comment.likes.length }" href="/likes/toggle/?id=${comment._id}&type=Comment">
+                                        ${ comment.likes.length } Likes
+                                    </a>
+                                
+                            </small>    
                         </p>    
 
                 </li>`);
@@ -100,4 +111,4 @@ class PostComments{
 
         });
     }
-}
+    }

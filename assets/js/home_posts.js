@@ -14,6 +14,8 @@
                     let newPost = newPostDom(data.data.post);
                     $('#posts-list-container>ul').prepend(newPost);
                     deletePost($(' .delete-post-button', newPost));
+                    //enable functionality of likes in post
+                    new ToggleLike($(' .toggle-like-button', newPost));
 
                     // call the create comment class
                     new PostComments(data.data.post._id);
@@ -49,6 +51,11 @@
                         <small>
                         ${ post.user.name }
                         </small>
+                        <br>
+                        <a class="toggle-like-button" data-likes="${ post.likes.length }" href="/likes/toggle/?id=${post._id}&type=Post">
+                            
+                            0 Likes
+                        </a>
                     </p>
                     <div class="post-comments">
                         
@@ -57,7 +64,8 @@
                                 <input type="hidden" name="post" value="${ post._id }" >
                                 <input type="submit" value="Add Comment">
                             </form>
-               
+                            
+                            
                 
                         <div class="post-comments-list">
                             <ul id="post-comments-${ post._id }">
